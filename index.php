@@ -70,5 +70,20 @@
                 }
                 echo json_encode($response);
                 break;
+
+                // to delete data 
+                case "DELETE": 
+                    $sql = "DELETE FROM users WHERE id = :id";
+                    $path = explode('/', $_SERVER['REQUEST_URI']);
+            
+                    $stmt = $db->prepare($sql);
+                    $stmt->bindParam(':id', $path[3]);
+                    if($stmt->execute()) {
+                        $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+                    } else {
+                        $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+                    }
+                    echo json_encode($response);
+                    break;
 }
 ?>
